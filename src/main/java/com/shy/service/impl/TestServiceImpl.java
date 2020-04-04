@@ -25,6 +25,27 @@ public class TestServiceImpl implements TestService {
         return list;
     }
 
+    @Override
+    public List<School_Information> getSchooByPage(int start,int pageSize,String province)
+    {
+        List<School_Information> lists = testDao.getAccountByPage(start,pageSize,province);
+        return lists;
+    }
+
+    @Override
+    public List<School_Information> getSchool()
+    {
+        List<School_Information> list = testDao.getSchool();
+        return list;
+    }
+
+    @Override
+    public List<School_Information> getSchoolByProvince(String province)
+    {
+        List<School_Information> list = testDao.getSchoolByProvince(province);
+        return list;
+    }
+
 
 
 

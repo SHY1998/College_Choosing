@@ -11,6 +11,29 @@
     <title>Title</title>
 </head>
 <body>
-<h3>转换成功</h3>
+<input type="button" id="btn" value="123">
+<table>
+    <tr>
+        <td>姓名</td>
+        <td>姓名</td>
+        <td>姓名</td>
+    </tr>
+    <tbody id="content"></tbody>
+</table>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
+<script>
+    $(function () {
+        $("#btn").click(function () {
+            $.post("${pageContext.request.contextPath}/text/list",function (data) {
+                console.log(data);
+                var html ="";
+                for(var i=0;i<data.length;i++)
+                {
+                    data[i].
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>
