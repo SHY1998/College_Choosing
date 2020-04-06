@@ -35,7 +35,13 @@ public class Page implements Serializable {
         {
             nextPage = currentPage;
         }
+        System.out.println("page============");
+        System.out.println(totalPage);
+        System.out.println(currentPage);
+        System.out.println(nextPage);
+        System.out.println("page============");
         return nextPage;
+
     }
 
     public int getPrefPage() {

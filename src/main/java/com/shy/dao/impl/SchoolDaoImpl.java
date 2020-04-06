@@ -39,45 +39,40 @@ public class SchoolDaoImpl implements SchoolDao {
         return null;
     }
 
-    /**
-     * 分页显示
-     * @param start  开始页
-     * @param perPageUsers
-     * @param province
-     * @return
-     */
-    @Override
-    public List<School_Information> getAccountByPage(int start, int perPageUsers,String province)
-    {
-//        String hql;
-//        if (province ==null)
+//    @Override
+//    public List<School_Information> getAccountByPage(int start, String province)
+//    {
+////        String hql;
+////        if (province ==null)
+////        {
+////            hql= "from School_Information";
+////
+////        }
+////        else {
+////            System.out.println("dao======================================");
+////            System.out.println(province);
+////            hql = "from School_Information s where s.province.province_name='"+province+"'";
+////        }
+////        Query q = this.getCurrentSession().createQuery(hql);
+//        Query q = this.getSchoolByParams(province,province);
+//        q.setFirstResult(start);
+//        q.setMaxResults(20);
+//        List<School_Information> schools = q.list();
+//        if(schools!= null&&schools.size()>0)
 //        {
-//            hql= "from School_Information";
-//
+//            return schools;
 //        }
-//        else {
-//            System.out.println("dao======================================");
-//            System.out.println(province);
-//            hql = "from School_Information s where s.province.province_name='"+province+"'";
-//        }
-//        Query q = this.getCurrentSession().createQuery(hql);
-        Query q = this.getSchoolByParams(null,province);
-        q.setFirstResult(start);
-        q.setMaxResults(perPageUsers);
-        List<School_Information> schools = q.list();
-        if(schools!= null&&schools.size()>0)
-        {
-            return schools;
-        }
-        return null;
-    }
+//        return null;
+//    }
 
     @Override
-    public List<School_Information> getSchoolByProvince(String province)
+    public List<School_Information> getSchoolByParams(String province, int start)
     {
-        String hql = "select s from School_Information  s where s.province.province_name = (:province_name)";
-        Query q = this.getCurrentSession().createQuery(hql);
-
+//        String hql = "select s from School_Information  s where s.province.province_name = (:province_name)";
+//        Query q = this.getCurrentSession().createQuery(hql);
+        Query q = ParamSQL(null,province);
+        q.setFirstResult(start);
+        q.setMaxResults(20);
         List<School_Information> schools = q.list();
         if(schools!= null&&schools.size()>0)
         {
@@ -85,9 +80,31 @@ public class SchoolDaoImpl implements SchoolDao {
         }
         return null;
     }
-
-    public Query getSchoolByParams(String school_name,String province)
+    @Override
+    public List<School_Information> getSchool(String province, int start)
     {
+        System.out.println("DAO=============");
+        System.out.println(province);
+        System.out.println("DAO=============");
+        Query q = ParamSQL(null,province);
+        List<School_Information> schools = q.list();
+        if(schools!= null&&schools.size()>0)
+        {
+            return schools;
+        }
+        return null;
+
+    }
+
+    public Query ParamSQL(String school_name,String province)
+    {
+        if (province.equals(""))
+        {
+            province = null;
+        }
+        System.out.println("param=========");
+        System.out.println(province);
+        System.out.println("param=========");
         String hql;
         if (school_name == null && province == null)
         {

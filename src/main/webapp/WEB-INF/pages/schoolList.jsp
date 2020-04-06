@@ -16,8 +16,8 @@
 <body>
 <h2>学校</h2>
 <div>
-    <form method="get" action="${pageContext.request.contextPath}/test/page">
-        <input type="text" name="Province">
+    <form method="get" action="${pageContext.request.contextPath}/school/search">
+        <input type="text" name="province">
         <button type="submit">查询</button>
     </form>
 </div>
@@ -35,7 +35,7 @@
     <c:if test="${list!=null||fn:length(list)!=0}">
         <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
             <tr>
-                <td>${school.school_name}</td>
+                <td><a href="${school.home_page}">${school.school_name}</a>></td>
                 <%--<td>${school.Province.province_name}</td>--%>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
@@ -60,25 +60,29 @@
 </table>
 <table>
     <tr itemid="${page}">
-        <form action="${pageContext.request.contextPath}/test/page">
+        <form action="${pageContext.request.contextPath}/school/search">
         <td><input type="hidden" name="page" value="1"></td>
+        <td><input type="hidden" name="province" value="${province}"></td>
         <td><input type="submit" value="首页"></td>
         </form>
 
-        <form action="${pageContext.request.contextPath}/test/page">
+        <form action="${pageContext.request.contextPath}/school/search">
             <td><input type="hidden" name="page" value="${page.prefPage}"></td>
+            <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="submit" value="上一页"></td>
         </form>
         <td>当前：第${page.currentPage}页<--></td>
         <td>共：${page.totalPage}页</td>
 
-        <form method="GET" action="${pageContext.request.contextPath}/test/page">
+        <form method="GET" action="${pageContext.request.contextPath}/school/search">
+            <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="hidden" name="page" value="${page.nextPage}"></td>
             <td><input type="submit" value="下一页"></td>
         </form>
 
-        <form method="GET" action="${pageContext.request.contextPath}/test/page">
+        <form method="GET" action="${pageContext.request.contextPath}/school/search ">
             <td><input type="hidden" name="page" value="${page.totalPage}"></td>
+            <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="submit" value="尾页"></td>
         </form>
     </tr>
@@ -121,7 +125,7 @@
             //
             // })
             $.ajax({
-                url:"${pageContext.request.contextPath}/test/list",
+                url:"${pageContext.request.contextPath}/school/list",
                 data:{"page":1,"province":"安徽"},
                 type:"GET",
                 success:function (data) {
