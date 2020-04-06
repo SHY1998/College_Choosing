@@ -7,7 +7,7 @@ import java.util.List;
 public interface SchoolService {
     List<School_Information> getSchool();
 
-    List<School_Information> getSchoolByParams(String province, int page);
+    List<School_Information> getSchoolByParams(String province,String type, int page);
 
-    List<School_Information> getSchool(String province, int page);
+    List<School_Information> getSchool(String province,String type, int page);
 }

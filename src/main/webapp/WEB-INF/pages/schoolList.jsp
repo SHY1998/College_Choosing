@@ -13,8 +13,60 @@
     <title>Title</title>
 </head>
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-<body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/School.js"></script>
+<body >
 <h2>学校</h2>
+<div >
+    <input name="pro" type="radio" value="" checked="checked">全部
+    <input name="pro" type="radio" value="北京">北京
+    <input name="pro" type="radio" value="河北">河北
+    <input name="pro" type="radio" value="天津">天津
+    <input name="pro" type="radio" value="山西">山西
+    <input name="pro" type="radio" value="内蒙古">内蒙古
+    <input name="pro" type="radio" value="辽宁">辽宁
+    <input name="pro" type="radio" value="吉林">吉林
+    <input name="pro" type="radio" value="黑龙江">黑龙江
+    <input name="pro" type="radio" value="上海">上海
+    <input name="pro" type="radio" value="江苏">江苏
+    <input name="pro" type="radio" value="浙江">浙江
+    <input name="pro" type="radio" value="安徽">安徽
+    <input name="pro" type="radio" value="福建">福建
+    <input name="pro" type="radio" value="江西">江西
+    <input name="pro" type="radio" value="山东">山东
+    <input name="pro" type="radio" value="河南">河南
+    <input name="pro" type="radio" value="湖北">湖北
+    <input name="pro" type="radio" value="湖南">湖南
+    <input name="pro" type="radio" value="广东">广东
+    <input name="pro" type="radio" value="广西">广西
+    <input name="pro" type="radio" value="海南">海南
+    <input name="pro" type="radio" value="重庆">重庆
+    <input name="pro" type="radio" value="四川">四川
+    <input name="pro" type="radio" value="贵州">贵州
+    <input name="pro" type="radio" value="云南">云南
+    <input name="pro" type="radio" value="西藏">西藏
+    <input name="pro" type="radio" value="陕西">陕西
+    <input name="pro" type="radio" value="甘肃">甘肃
+    <input name="pro" type="radio" value="青海">青海
+    <input name="pro" type="radio" value="宁夏">宁夏
+    <input name="pro" type="radio" value="新疆">新疆
+    <input name="pro" type="radio" value="香港">香港
+    <input name="pro" type="radio" value="澳门">澳门
+</div>
+<div>
+    <input name="type" type="radio" value="" checked = checked>全部
+    <input name="type" type="radio" value="综合类">综合
+    <input name="type" type="radio" value="理工类">理工
+    <input name="type" type="radio" value="农林类">农林
+    <input name="type" type="radio" value="医药类">医药
+    <input name="type" type="radio" value="师范类">师范
+    <input name="type" type="radio" value="语言类">语言
+    <input name="type" type="radio" value="财经类">财经
+    <input name="type" type="radio" value="政法类">政法
+    <input name="type" type="radio" value="体育类">体育
+    <input name="type" type="radio" value="艺术类">艺术
+    <input name="type" type="radio" value="民族类">民族
+    <input name="type" type="radio" value="军事类">军事
+</div>
 <div>
     <form method="get" action="${pageContext.request.contextPath}/school/search">
         <input type="text" name="province">
@@ -35,7 +87,7 @@
     <c:if test="${list!=null||fn:length(list)!=0}">
         <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
             <tr>
-                <td><a href="${school.home_page}">${school.school_name}</a>></td>
+                <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
                 <%--<td>${school.Province.province_name}</td>--%>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
@@ -45,18 +97,6 @@
             </tr>
         </c:forEach>
     </c:if>
-</table>
-<table id="thisTable">
-<tr>
-    <td>id</td>
-    <td>Name</td>
-    <td>Money</td>
-    <td>Money</td>
-    <td>高校对比</td>
-
-</tr>
-<tbody id="contant">
-</tbody>
 </table>
 <table>
     <tr itemid="${page}">
@@ -97,15 +137,25 @@
 </form>
 </body>
 <script>
+    function load()
+    {
+        $("input:radio[name='pro'][value=${province}]").attr('checked','true');
+        $("input:radio[name='type'][value=${type}]").attr('checked','true');
 
-    <%--document.getElementById("province_submit").href = "${pageContext.request.contextPath}/user/page?"+Province;--%>
-    <%--function setUrl() {--%>
-        <%--var province = $('#Province').val();--%>
-        <%--var href = "${pageContext.request.contextPath}/user/page?"+province;--%>
-        <%--// return href;--%>
-        <%--alert(href)--%>
-    <%--}--%>
-
+    }
+    window.onload = load;
+    /**
+     * 单选框
+     */
+    $('input:radio[name="pro"]').change(like);
+    $('input:radio[name="type"]').change(like);
+    function like()
+    {
+        var pro = $("input[name='pro']:checked").val();
+        var type = $("input[name='type']:checked").val();
+        window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;
+        <%--window.location.href="${pageContext.request.contextPath}/school/search?province="--%>
+    }
     $(function () {
         $("#btn").click(function () {
             alert("前面")
@@ -145,11 +195,9 @@
                         }
                         alert(tr);
                         table.append(tr);
-
                 }
             })
         })
     })
-
 </script>
 </html>

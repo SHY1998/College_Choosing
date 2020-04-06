@@ -4,8 +4,12 @@ package com.shy.dao.impl;
 
 import com.shy.dao.SchoolDao;
 import com.shy.eneity.School_Information;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +21,8 @@ public class SchoolDaoImpl implements SchoolDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+
 
     private Session getCurrentSession()
     {
@@ -30,50 +36,36 @@ public class SchoolDaoImpl implements SchoolDao {
     @Override
     public List<School_Information> getSchool()
     {
-        Query query = this.getCurrentSession().createQuery("from School_Information");
-        List<School_Information> schools = query.list();
+
+        DetachedCriteria dc  = DetachedCriteria.forClass(School_Information.class);
+        Criteria c =dc.getExecutableCriteria(getCurrentSession());
+        List<School_Information> schools= c.list();
+        System.out.println("dc.size================");
+        System.out.println(schools.size());
         if(schools!= null&&schools.size()>0)
         {
             return schools;
         }
         return null;
+
+
     }
 
-//    @Override
-//    public List<School_Information> getAccountByPage(int start, String province)
-//    {
-////        String hql;
-////        if (province ==null)
-////        {
-////            hql= "from School_Information";
-////
-////        }
-////        else {
-////            System.out.println("dao======================================");
-////            System.out.println(province);
-////            hql = "from School_Information s where s.province.province_name='"+province+"'";
-////        }
-////        Query q = this.getCurrentSession().createQuery(hql);
-//        Query q = this.getSchoolByParams(province,province);
-//        q.setFirstResult(start);
-//        q.setMaxResults(20);
-//        List<School_Information> schools = q.list();
-//        if(schools!= null&&schools.size()>0)
-//        {
-//            return schools;
-//        }
-//        return null;
-//    }
-
     @Override
-    public List<School_Information> getSchoolByParams(String province, int start)
+    public List<School_Information> getSchoolByParams(String province,String type, int start)
     {
-//        String hql = "select s from School_Information  s where s.province.province_name = (:province_name)";
-//        Query q = this.getCurrentSession().createQuery(hql);
-        Query q = ParamSQL(null,province);
-        q.setFirstResult(start);
-        q.setMaxResults(20);
-        List<School_Information> schools = q.list();
+        DetachedCriteria dc  = detachedCriteria();
+        dc.createAlias("province","p");
+        dc.add(Restrictions.like("p.province_name",province, MatchMode.ANYWHERE));
+        dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
+        Criteria c = dc.getExecutableCriteria(getCurrentSession());
+        System.out.println("Criteria");
+        System.out.println(type);
+        System.out.println(c.list().size());
+        System.out.println("Criteria");
+        c.setFirstResult(start);
+        c.setMaxResults(20);
+        List<School_Information> schools = c.list();
         if(schools!= null&&schools.size()>0)
         {
             return schools;
@@ -81,13 +73,22 @@ public class SchoolDaoImpl implements SchoolDao {
         return null;
     }
     @Override
-    public List<School_Information> getSchool(String province, int start)
+    public List<School_Information> getSchool(String province,String type, int start)
     {
-        System.out.println("DAO=============");
-        System.out.println(province);
-        System.out.println("DAO=============");
-        Query q = ParamSQL(null,province);
-        List<School_Information> schools = q.list();
+        DetachedCriteria dc  = detachedCriteria();
+        dc.createAlias("province","p");
+        if (province!=null)
+        {
+            dc.add(Restrictions.like("p.province_name",province, MatchMode.ANYWHERE));
+
+        }
+        if (type!=null)
+        {
+            dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
+
+        }
+        Criteria c =dc.getExecutableCriteria(getCurrentSession());
+        List<School_Information> schools = c.list();
         if(schools!= null&&schools.size()>0)
         {
             return schools;
@@ -108,7 +109,8 @@ public class SchoolDaoImpl implements SchoolDao {
         String hql;
         if (school_name == null && province == null)
         {
-            hql = "from School_Information";
+//            hql = "from School_Information";
+            hql="";
         }
         else if(school_name == null )
         {
@@ -126,4 +128,10 @@ public class SchoolDaoImpl implements SchoolDao {
         Query q = this.getCurrentSession().createQuery(hql);
         return q;
     }
+    public DetachedCriteria detachedCriteria()
+    {
+        DetachedCriteria dc  = DetachedCriteria.forClass(School_Information.class);
+        return dc;
+    }
+
 }
