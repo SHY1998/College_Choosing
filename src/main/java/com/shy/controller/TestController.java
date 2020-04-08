@@ -1,83 +1,84 @@
 package com.shy.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.alibaba.fastjson.JSONArray;
+import com.shy.dao.TestDao;
 import com.shy.eneity.School_Information;
+import com.shy.service.SchoolService;
 import com.shy.service.TestService;
 import com.shy.tool.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-
 
 @Controller
-@RequestMapping("/test")
+@RequestMapping("test")
 public class TestController {
 
     @Autowired
     private TestService testService;
 
-    @RequestMapping("/success")
-    public String test()
+    @Autowired
+    private TestDao testDao;
+
+    /**
+     *
+     * @param page  页数
+     * @param province  省市
+     * @param type  类型
+     * @param model
+     * @return  学校列表
+     */
+    @RequestMapping("search")
+    public String getAllSchool(@RequestParam(name = "page",defaultValue = "1",required = false)int page, @RequestParam(name = "province",defaultValue ="")String province, @RequestParam(name = "type",defaultValue ="")String type,Model model)
     {
-        return "success";
-    }
 
-
-    @RequestMapping("/ServiceTest")
-    public String ServiceTest()
-    {
-        return testService.test();
-    }
-
-
-    @RequestMapping("id")
-    public String getSchoolById(Integer id, Model model)
-    {
-        List<School_Information> list = testService.getSchoolById(id);
-        model.addAttribute("list",list);
-        return "school";
-    }
-
-    @RequestMapping("page")
-    public String getSchoolByPage(@RequestParam(name = "page",required = false,defaultValue = "1")Integer page,@RequestParam(name = "Province",required = false)String province, Model model)
-    {
         Page p = new Page();
-        List<School_Information> list = testService.getSchooByPage((page-1)*p.getPageSize(),p.getPageSize(),province);
-        p.setTotalRecord(list.size());
+        List<School_Information> list = testService.getSchoolByParams(province,type,(page-1)*p.getPageSize());
+        p.setTotalRecord(testService.getSchool(province,type,page).size());
         p.setCurrentPage(page);
         model.addAttribute("list",list);
         model.addAttribute("page",p);
-        return "schoolList";
+        model.addAttribute("province",province);
+        model.addAttribute("type",type);
+        return "test";
+
     }
 
-    @RequestMapping("/list")
-    @ResponseBody
-    public Map<String,Object> School_json(Integer page, String province) throws IOException {
-
-        Page p =new Page();
-        List<School_Information> list = new ArrayList<School_Information>();
-        Map<String,Object> context = new HashMap<>();
-        list = testService.getSchooByPage((page-1)*p.getPageSize(),p.getPageSize(),province);
-//        list  = testService.getSchoolById(56);
-        p.setTotalRecord(list.size());
-        p.setCurrentPage(page);
-        context.put("schoolList",list);
-        context.put("status",true);
-        return context;
+    /**
+     *
+     * @param school_id 学校ID
+     * @param model
+     * @return  学校主页面
+     */
+    @RequestMapping("/{school_id}")
+    public String school_page(@PathVariable(value = "school_id")Integer school_id,Model model)
+    {
+        model.addAttribute("school_id",school_id);
+        return "School_home_page";
     }
 
+    @RequestMapping("many")
+    public String mant()
+    {
+        List<School_Information> schools = testDao.test();
 
+        return "success";
+    }
 
+    @RequestMapping("schools_compare")
+    public String schools_compare( String schools)
+    {
+        String [] school = schools.split(",");
+        System.out.println("学校是");
+        System.out.println(schools);
+        for (int i = 0; i <school.length ; i++) {
+            System.out.println(school[i]);
+        }
+        return "success";
+    }
 }
-

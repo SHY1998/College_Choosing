@@ -68,9 +68,9 @@
     <input name="type" type="radio" value="军事类"/>军事
 </div>
 <div>
-    <form method="get" action="${pageContext.request.contextPath}/school/search">
+    <form method="get" action="${pageContext.request.contextPath}/test/search">
         <input type="text" name="province">
-        <button type="submit">查询</button>
+        <button type="submit" id="ceshi" name="ccccc">查询</button>
     </form>
 </div>
 <button type="button" id="btn">北京</button>
@@ -88,25 +88,23 @@
         <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
             <tr>
                 <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
-                <%--<td>${school.Province.province_name}</td>--%>
+                    <%--<td>${school.Province.province_name}</td>--%>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
-                <td>高校对比</td>
-
-
+                <td><button id="${school.school_name}" name="${school.school_name} " onclick="Contrast('${school.school_name}')">高校对比</button></td>
             </tr>
         </c:forEach>
     </c:if>
 </table>
 <table>
     <tr itemid="${page}">
-        <form action="${pageContext.request.contextPath}/school/search">
-        <td><input type="hidden" name="page" value="1"></td>
-        <td><input type="hidden" name="province" value="${province}"></td>
-        <td><input type="submit" value="首页"></td>
+        <form action="${pageContext.request.contextPath}/test/search">
+            <td><input type="hidden" name="page" value="1"></td>
+            <td><input type="hidden" name="province" value="${province}"></td>
+            <td><input type="submit" value="首页"></td>
         </form>
 
-        <form action="${pageContext.request.contextPath}/school/search">
+        <form action="${pageContext.request.contextPath}/test/search">
             <td><input type="hidden" name="page" value="${page.prefPage}"></td>
             <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="submit" value="上一页"></td>
@@ -114,13 +112,13 @@
         <td>当前：第${page.currentPage}页<--></td>
         <td>共：${page.totalPage}页</td>
 
-        <form method="GET" action="${pageContext.request.contextPath}/school/search">
+        <form method="GET" action="${pageContext.request.contextPath}/test/search">
             <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="hidden" name="page" value="${page.nextPage}"></td>
             <td><input type="submit" value="下一页"></td>
         </form>
 
-        <form method="GET" action="${pageContext.request.contextPath}/school/search ">
+        <form method="GET" action="${pageContext.request.contextPath}/test/search ">
             <td><input type="hidden" name="page" value="${page.totalPage}"></td>
             <td><input type="hidden" name="province" value="${province}"></td>
             <td><input type="submit" value="尾页"></td>
@@ -135,8 +133,76 @@
         </tr>
     </table>
 </form>
+<div>
+    <h1>对比</h1>
+    <button onclick="id_send()">传递数组</button>
+    <ul id="selectedplan">
+        <li value="q23">q2</li>
+    </ul>
+    <button id="subcom" onclick="sub()">提交</button>
+</div>
+
 </body>
 <script>
+    var schooltext;
+    function sub() {
+        var cit = new Array();
+        var   ul = document.getElementById("selectedplan").getElementsByTagName("li");
+        for(var i =0;i<ul.length;i++)
+        {
+             cit[i] = ul[i].getAttribute("value");
+        }
+        var c = cit.join();
+        alert(c);
+        $.ajax({
+            type :'POST',
+            url: '/test/schools_compare',
+            data: {"schools":c},
+            success : function(data) {
+            }
+        });
+
+    }
+    function id_send() {
+        // var arr = [1,2,3,4];
+        var array =  ['1','2'];
+        alert("/test/send1")
+        // $.post(
+            <%--"${pageContext.request.contextPath}/test/send",{'arr':arr},function (flag) {--%>
+            <%--alert(flag);--%>
+        <%--}--%>
+        // )
+        $.ajax({
+            type : 'POST',
+            url: '/test/send1',
+            contentType : "application/json" ,
+            data: JSON.stringify(array),
+            success : function(data) {
+            }
+        });
+
+    }
+    function schooldelete() {
+        this.parentElement.remove();
+    }
+    function Contrast(name) {
+        var ul = document.getElementById("selectedplan");
+        var li = document.createElement("li");
+        li.textContent = name;
+        li.setAttribute("value",name);
+        var a =document.createElement("a");
+        a.textContent="删除";
+        a.addEventListener("click",schooldelete);
+        li.appendChild(a);
+        ul.appendChild(li);
+
+        alert(name);
+       // var s = document.getElementsByName(name);
+       // document.getElementsByName(name).attr("disabled","true");
+        var thi = "ceshi";
+       document.getElementById(name).disabled  = true;
+    }
+    
     function load()
     {
         $("input:radio[name='pro'][value=${province}]").attr('checked','true');
@@ -153,7 +219,7 @@
     {
         var pro = $("input[name='pro']:checked").val();
         var type = $("input[name='type']:checked").val();
-        window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;
+        window.location.href="${pageContext.request.contextPath}/test/search?province="+pro+"&type="+type;
         <%--window.location.href="${pageContext.request.contextPath}/school/search?province="--%>
     }
     $(function () {
@@ -181,20 +247,20 @@
                 success:function (data) {
                     alert("chengong")
                     alert(data.schoolList[0].school_name)
-                        console.log(data);
-                        var list = data.schoolList;
-                        var table = $("#thisTable");
-                        var tr = ""
-                        for ( i =0;i<list.length;i++)
-                        {
-                            var schools = list[i];
-                            tr+="<tr>"+
-                                "<td>"+schools.school_name+"</td>"+
-                                "<td>"+schools.school_name+"</td>"+
-                                "<td>"+schools.school_name+"</td>"+"<tr>"
-                        }
-                        alert(tr);
-                        table.append(tr);
+                    console.log(data);
+                    var list = data.schoolList;
+                    var table = $("#thisTable");
+                    var tr = ""
+                    for ( i =0;i<list.length;i++)
+                    {
+                        var schools = list[i];
+                        tr+="<tr>"+
+                            "<td>"+schools.school_name+"</td>"+
+                            "<td>"+schools.school_name+"</td>"+
+                            "<td>"+schools.school_name+"</td>"+"<tr>"
+                    }
+                    alert(tr);
+                    table.append(tr);
                 }
             })
         })

@@ -1,9 +1,9 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: 23226
-  Date: 2020-04-02
-  Time: 21:14
-  To change this template use File | Settings | File Templates.
+Created by IntelliJ IDEA.
+User: 23226
+Date: 2020-04-02
+Time: 21:14
+To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -70,7 +70,7 @@
 <div>
     <form method="get" action="${pageContext.request.contextPath}/school/search">
         <input type="text" name="province">
-        <button type="submit">查询</button>
+        <button type="submit" id="ceshi" name="ccccc">查询</button>
     </form>
 </div>
 <button type="button" id="btn">北京</button>
@@ -91,9 +91,7 @@
                 <%--<td>${school.Province.province_name}</td>--%>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
-                <td>高校对比</td>
-
-
+                <td><button id="${school.school_name}" name="${school.school_name} " onclick="Contrast('${school.school_name}')">高校对比</button></td>
             </tr>
         </c:forEach>
     </c:if>
@@ -101,9 +99,9 @@
 <table>
     <tr itemid="${page}">
         <form action="${pageContext.request.contextPath}/school/search">
-        <td><input type="hidden" name="page" value="1"></td>
-        <td><input type="hidden" name="province" value="${province}"></td>
-        <td><input type="submit" value="首页"></td>
+            <td><input type="hidden" name="page" value="1"></td>
+            <td><input type="hidden" name="province" value="${province}"></td>
+            <td><input type="submit" value="首页"></td>
         </form>
 
         <form action="${pageContext.request.contextPath}/school/search">
@@ -135,69 +133,106 @@
         </tr>
     </table>
 </form>
-</body>
-<script>
-    function load()
-    {
-        $("input:radio[name='pro'][value=${province}]").attr('checked','true');
-        $("input:radio[name='type'][value=${type}]").attr('checked','true');
+<div>
+    <h1>对比</h1>
+    <button onclick="id_send()">传递数组</button>
+    <ul>
+        <li style="list-style: none;">
+        <span>北京</span>
+    </li>
+    </ul>
+</div>
 
-    }
-    window.onload = load;
-    /**
-     * 单选框
-     */
-    $('input:radio[name="pro"]').change(like);
-    $('input:radio[name="type"]').change(like);
-    function like()
-    {
-        var pro = $("input[name='pro']:checked").val();
-        var type = $("input[name='type']:checked").val();
-        window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;
-        <%--window.location.href="${pageContext.request.contextPath}/school/search?province="--%>
-    }
-    $(function () {
-        $("#btn").click(function () {
-            alert("前面")
-            // $.ajax("list",{"page":"1","province":"北京"},function (data) {
-            //     alert("chengong")
-            //     // console.log(data);
-            //     // var html = "";
-            //     // for (var i =0;i<data.length;i++)
-            //     // {
-            //     //     html+="<tr>"+
-            //     //         "<td>"+data[i].school_name+"</td>"+
-            //     //         "<td>"+data[i].school_name+"</td>"+
-            //     //         "<td>"+data[i].school_name+"</td>"+"<tr>"
-            //     // }
-            //     // $("#contant").html(html);
-            //     alert(data.schoolList);
-            //
-            // })
-            $.ajax({
-                url:"${pageContext.request.contextPath}/school/list",
-                data:{"page":1,"province":"安徽"},
-                type:"GET",
-                success:function (data) {
-                    alert("chengong")
-                    alert(data.schoolList[0].school_name)
-                        console.log(data);
-                        var list = data.schoolList;
-                        var table = $("#thisTable");
-                        var tr = ""
-                        for ( i =0;i<list.length;i++)
-                        {
-                            var schools = list[i];
-                            tr+="<tr>"+
-                                "<td>"+schools.school_name+"</td>"+
-                                "<td>"+schools.school_name+"</td>"+
-                                "<td>"+schools.school_name+"</td>"+"<tr>"
-                        }
-                        alert(tr);
-                        table.append(tr);
-                }
-            })
-        })
-    })
-</script>
+</body>
+<!--<script>-->
+    <!--function id_send() {-->
+        <!--// var arr = [1,2,3,4];-->
+        <!--var array =  ['1','2'];-->
+        <!--alert("/test/send1")-->
+        <!--// $.post(-->
+        <!--<%&#45;&#45;"${pageContext.request.contextPath}/test/send",{'arr':arr},function (flag) {&#45;&#45;%>-->
+        <!--<%&#45;&#45;alert(flag);&#45;&#45;%>-->
+        <!--<%&#45;&#45;}&#45;&#45;%>-->
+        <!--// )-->
+        <!--$.ajax({-->
+            <!--type : 'POST',-->
+            <!--url: '/test/send1',-->
+            <!--contentType : "application/json" ,-->
+            <!--data: JSON.stringify(array),-->
+            <!--success : function(data) {-->
+            <!--}-->
+        <!--});-->
+
+    <!--}-->
+    <!--function Contrast(name) {-->
+        <!--alert(name);-->
+        <!--// var s = document.getElementsByName(name);-->
+        <!--// document.getElementsByName(name).attr("disabled","true");-->
+        <!--var thi = "ceshi";-->
+        <!--document.getElementById(name).disabled  = true;-->
+    <!--}-->
+
+    <!--function load()-->
+    <!--{-->
+        <!--$("input:radio[name='pro'][value=${province}]").attr('checked','true');-->
+        <!--$("input:radio[name='type'][value=${type}]").attr('checked','true');-->
+
+    <!--}-->
+    <!--window.onload = load;-->
+    <!--/**-->
+     <!--* 单选框-->
+     <!--*/-->
+    <!--$('input:radio[name="pro"]').change(like);-->
+    <!--$('input:radio[name="type"]').change(like);-->
+    <!--function like()-->
+    <!--{-->
+        <!--var pro = $("input[name='pro']:checked").val();-->
+        <!--var type = $("input[name='type']:checked").val();-->
+        <!--window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;-->
+        <!--<%&#45;&#45;window.location.href="${pageContext.request.contextPath}/school/search?province="&#45;&#45;%>-->
+    <!--}-->
+    <!--$(function () {-->
+        <!--$("#btn").click(function () {-->
+            <!--alert("前面")-->
+            <!--// $.ajax("list",{"page":"1","province":"北京"},function (data) {-->
+            <!--//     alert("chengong")-->
+            <!--//     // console.log(data);-->
+            <!--//     // var html = "";-->
+            <!--//     // for (var i =0;i<data.length;i++)-->
+            <!--//     // {-->
+            <!--//     //     html+="<tr>"+-->
+            <!--//     //         "<td>"+data[i].school_name+"</td>"+-->
+            <!--//     //         "<td>"+data[i].school_name+"</td>"+-->
+            <!--//     //         "<td>"+data[i].school_name+"</td>"+"<tr>"-->
+            <!--//     // }-->
+            <!--//     // $("#contant").html(html);-->
+            <!--//     alert(data.schoolList);-->
+            <!--//-->
+            <!--// })-->
+            <!--$.ajax({-->
+                <!--url:"${pageContext.request.contextPath}/school/list",-->
+                <!--data:{"page":1,"province":"安徽"},-->
+                <!--type:"GET",-->
+                <!--success:function (data) {-->
+                    <!--alert("chengong")-->
+                    <!--alert(data.schoolList[0].school_name)-->
+                    <!--console.log(data);-->
+                    <!--var list = data.schoolList;-->
+                    <!--var table = $("#thisTable");-->
+                    <!--var tr = ""-->
+                    <!--for ( i =0;i<list.length;i++)-->
+                    <!--{-->
+                        <!--var schools = list[i];-->
+                        <!--tr+="<tr>"+-->
+                            <!--"<td>"+schools.school_name+"</td>"+-->
+                            <!--"<td>"+schools.school_name+"</td>"+-->
+                            <!--"<td>"+schools.school_name+"</td>"+"<tr>"-->
+                    <!--}-->
+                    <!--alert(tr);-->
+                    <!--table.append(tr);-->
+                <!--}-->
+            <!--})-->
+        <!--})-->
+    <!--})-->
+<!--</script>-->
 </html>

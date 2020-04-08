@@ -1,13 +1,19 @@
 package com.shy.dao.impl;
 
+
+
+import com.shy.dao.SchoolDao;
 import com.shy.dao.TestDao;
 import com.shy.eneity.School_Information;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -17,78 +23,127 @@ public class TestDaoImpl implements TestDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+
+
     private Session getCurrentSession()
     {
         return this.sessionFactory.openSession();
     }
 
-
-    //按id查询学校
-    @Override
-    public List<School_Information> searchById(Integer id)
-    {
-        String hql = " FROM School_Information where school_id = (:school_id)";
-        Query q = this.getCurrentSession().createQuery(hql);
-        q.setParameter("school_id",id);
-        List<School_Information> school = q.list();
-        if (school!=null&&school.size()>0)
-        {
-            return school;
-        }
-        return null;
-    }
-
+    /**
+     * 返回全部学校列表
+     * @return
+     */
     @Override
     public List<School_Information> getSchool()
     {
-        Query query = this.getCurrentSession().createQuery("from School_Information");
-        List<School_Information> schools = query.list();
+
+        DetachedCriteria dc  = DetachedCriteria.forClass(School_Information.class);
+        Criteria c =dc.getExecutableCriteria(getCurrentSession());
+        List<School_Information> schools= c.list();
+        System.out.println("dc.size================");
+        System.out.println(schools.size());
+        if(schools!= null&&schools.size()>0)
+        {
+            return schools;
+        }
+        return null;
+
+
+    }
+
+    @Override
+    public List<School_Information> test()
+    {
+        DetachedCriteria dc  = detachedCriteria();
+        dc.add(Restrictions.or(Restrictions.eq("school_name","北京工业大学").ignoreCase(),Restrictions.eq("school_name","浙江大学")));
+        Criteria c = dc.getExecutableCriteria(getCurrentSession());
+        List<School_Information> schools = c.list();
+        System.out.println("多值查询");
+        System.out.println(schools.size());
+        return schools;
+    }
+    @Override
+    public List<School_Information> getSchoolByParams(String province,String type, int start)
+    {
+        DetachedCriteria dc  = detachedCriteria();
+        dc.createAlias("province","p");
+        dc.add(Restrictions.like("p.province_name",province, MatchMode.ANYWHERE));
+        dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
+        Criteria c = dc.getExecutableCriteria(getCurrentSession());
+        System.out.println("Criteria");
+        System.out.println(type);
+        System.out.println(c.list().size());
+        System.out.println("Criteria");
+        c.setFirstResult(start);
+        c.setMaxResults(20);
+        List<School_Information> schools = c.list();
         if(schools!= null&&schools.size()>0)
         {
             return schools;
         }
         return null;
     }
-
-
     @Override
-    public List<School_Information> getAccountByPage(int start, int perPageUsers,String province)
+    public List<School_Information> getSchool(String province,String type, int start)
     {
+        DetachedCriteria dc  = detachedCriteria();
+        dc.createAlias("province","p");
+        if (province!=null)
+        {
+            dc.add(Restrictions.like("p.province_name",province, MatchMode.ANYWHERE));
+
+        }
+        if (type!=null)
+        {
+            dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
+
+        }
+        Criteria c =dc.getExecutableCriteria(getCurrentSession());
+        List<School_Information> schools = c.list();
+        if(schools!= null&&schools.size()>0)
+        {
+            return schools;
+        }
+        return null;
+
+    }
+
+    public Query ParamSQL(String school_name,String province)
+    {
+        if (province.equals(""))
+        {
+            province = null;
+        }
+        System.out.println("param=========");
+        System.out.println(province);
+        System.out.println("param=========");
         String hql;
-        if (province ==null)
+        if (school_name == null && province == null)
         {
-            hql= "from School_Information";
+//            hql = "from School_Information";
+            hql="";
+        }
+        else if(school_name == null )
+        {
+            hql = "from School_Information s where s.province.province_name='"+province+"'";
+        }
+        else if(province == null)
+        {
+            hql = "from School_Information s where s.school_name = '"+school_name+"'";
+        }
+        else
+        {
+            hql = "from School_Information s wheres.province.province_name='"+province+"' and s.school_name = '"+school_name+"'";
+        }
 
-        }
-        else {
-            System.out.println("dao======================================");
-            System.out.println(province);
-             hql = "from School_Information s where s.province.province_name='"+province+"'";
-        }
         Query q = this.getCurrentSession().createQuery(hql);
-        q.setFirstResult(start);
-        q.setMaxResults(perPageUsers);
-        List<School_Information> schools = q.list();
-        if(schools!= null&&schools.size()>0)
-        {
-            return schools;
-        }
-        return null;
+        return q;
     }
-
-    @Override
-    public List<School_Information> getSchoolByProvince(String province)
+    public DetachedCriteria detachedCriteria()
     {
-        String hql = "select s from School_Information  s where s.province.province_name = (:province_name)";
-        Query q = this.getCurrentSession().createQuery(hql);
-
-        List<School_Information> schools = q.list();
-        if(schools!= null&&schools.size()>0)
-        {
-            return schools;
-        }
-        return null;
+        DetachedCriteria dc  = DetachedCriteria.forClass(School_Information.class);
+        return dc;
     }
-
 
 }
