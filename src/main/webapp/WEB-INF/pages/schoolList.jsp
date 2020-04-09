@@ -74,30 +74,51 @@
     </form>
 </div>
 <button type="button" id="btn">北京</button>
+
+
+
 <table frame="box" rules="all">
-    <tr>
-        <td>id</td>
-        <td>Name</td>
-        <td>Money</td>
-        <td>Money</td>
-        <td>高校对比</td>
-
+    <tr align="center">
+        <td rowspan="2">学校名称</td>
+        <td rowspan="2">所在地</td>
+        <td rowspan="2">办学类型</td>
+        <td colspan="2">报名热度</td>
+        <td rowspan="2">高校对比</td>
     </tr>
-
+    <tr align="center">
+        <td>全国热度排名</td>
+        <td>类别热度排名</td>
+    </tr>
     <c:if test="${list!=null||fn:length(list)!=0}">
         <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
             <tr>
                 <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
                 <%--<td>${school.Province.province_name}</td>--%>
+                <td>${school.province.province_name}</td>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
-                <td>高校对比</td>
-
-
+                <td>${school.type_name} ${school.heat_rank_type}</td>
+                <td><button id="${school.school_name}" name="${school.school_name} " onclick="Contrast('${school.school_name}')">高校对比</button></td>
             </tr>
         </c:forEach>
     </c:if>
 </table>
+
+<div>
+    <h1>对比</h1>
+    <button onclick="id_send()">传递数组</button>
+    <ul id="selectedplan">
+        <liContrast value="q23">q2</liContrast>
+    </ul>
+    <form action="/test/schools_compare">
+        <input hidden="hidden" id="school_hidden" name="school_hidden">
+        <input type="submit" value="确定提交" onclick="hidden_value()">
+    </form>
+    <button id="subcom" onclick="sub()">提交</button>
+</div>
+
+
+
 <table>
     <tr itemid="${page}">
         <form action="${pageContext.request.contextPath}/school/search">
@@ -127,6 +148,8 @@
         </form>
     </tr>
 </table>
+
+
 <form method="GET" action="${pageContext.request.contextPath}/test/page">
     <table>
         <tr>
@@ -137,6 +160,8 @@
 </form>
 </body>
 <script>
+
+
     function load()
     {
         $("input:radio[name='pro'][value=${province}]").attr('checked','true');
@@ -149,6 +174,8 @@
      */
     $('input:radio[name="pro"]').change(like);
     $('input:radio[name="type"]').change(like);
+
+
     function like()
     {
         var pro = $("input[name='pro']:checked").val();
@@ -156,6 +183,8 @@
         window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;
         <%--window.location.href="${pageContext.request.contextPath}/school/search?province="--%>
     }
+
+
     $(function () {
         $("#btn").click(function () {
             alert("前面")

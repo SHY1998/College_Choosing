@@ -25,16 +25,16 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public List<School_Information> getSchoolByParams(String province,String type,int page)
+    public List<School_Information> getSchoolByParams(String province,String type,String level,int page)
     {
-        List<School_Information> list = testDao.getSchoolByParams(province,type,page);
+        List<School_Information> list = testDao.getSchoolByParams(province,type,level,page);
         return list;
     }
 
     @Override
-    public List<School_Information> getSchool(String province,String type, int page)
+    public List<School_Information> getSchool(String province,String type,String level, int page)
     {
-        List<School_Information> list = testDao.getSchool(province,type,page);
+        List<School_Information> list = testDao.getSchool(province,type,level,page);
 //                List<School_Information> list = schoolDao.getSchool();
 
         return list;

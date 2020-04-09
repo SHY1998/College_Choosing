@@ -29,17 +29,19 @@ public class SchoolController {
      * @return  学校列表
      */
     @RequestMapping("search")
-    public String getAllSchool(@RequestParam(name = "page",defaultValue = "1",required = false)int page, @RequestParam(name = "province",defaultValue ="")String province, @RequestParam(name = "type",defaultValue ="")String type,Model model)
+    public String getAllSchool(@RequestParam(name = "page",defaultValue = "1",required = false)int page, @RequestParam(name = "province",defaultValue ="")String province, @RequestParam(name = "type",defaultValue ="")String type,@RequestParam(name = "level",defaultValue ="")String level,Model model)
     {
 
         Page p = new Page();
-        List<School_Information> list = schoolService.getSchoolByParams(province,type,(page-1)*p.getPageSize());
-        p.setTotalRecord(schoolService.getSchool(province,type,page).size());
+        System.out.println("level++++++++++"+level);
+        List<School_Information> list = schoolService.getSchoolByParams(province,type,level,(page-1)*p.getPageSize());
+        p.setTotalRecord(schoolService.getSchool(province,type,level,page).size());
         p.setCurrentPage(page);
         model.addAttribute("list",list);
         model.addAttribute("page",p);
         model.addAttribute("province",province);
         model.addAttribute("type",type);
+        model.addAttribute("level",level);
         return "schoolList";
 
     }

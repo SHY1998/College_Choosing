@@ -68,6 +68,11 @@
     <input name="type" type="radio" value="军事类"/>军事
 </div>
 <div>
+    <input name="level" type="radio" value="" checked=checked/>全部
+    <input name="level" type="radio" value="普通本科"/>普通本科
+    <input name="level" type="radio" value="专科"/>专科
+</div>
+<div>
     <form method="get" action="${pageContext.request.contextPath}/test/search">
         <input type="text" name="province">
         <button type="submit" id="ceshi" name="ccccc">查询</button>
@@ -75,22 +80,26 @@
 </div>
 <button type="button" id="btn">北京</button>
 <table frame="box" rules="all">
-    <tr>
-        <td>id</td>
-        <td>Name</td>
-        <td>Money</td>
-        <td>Money</td>
-        <td>高校对比</td>
-
+    <tr align="center">
+        <td rowspan="2">学校名称</td>
+        <td rowspan="2">所在地</td>
+        <td rowspan="2">办学类型</td>
+        <td colspan="2">报名热度</td>
+        <td rowspan="2">高校对比</td>
     </tr>
-
+    <tr align="center">
+        <td>全国热度排名</td>
+        <td>类别热度排名</td>
+    </tr>
     <c:if test="${list!=null||fn:length(list)!=0}">
         <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
             <tr>
                 <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
                     <%--<td>${school.Province.province_name}</td>--%>
+                <td>${school.province.province_name}</td>
                 <td>${school.level_name}</td>
                 <td>${school.heat_rank}</td>
+                <td>${school.type_name} ${school.heat_rank_type}</td>
                 <td><button id="${school.school_name}" name="${school.school_name} " onclick="Contrast('${school.school_name}')">高校对比</button></td>
             </tr>
         </c:forEach>
@@ -134,20 +143,19 @@
     </table>
 </form>
 <div>
-    <h1>对比</h1>
-    <button onclick="id_send()">传递数组</button>
+    <%--<button onclick="id_send()">传递数组</button>--%>
     <ul id="selectedplan">
-        <li value="q23">q2</li>
     </ul>
     <form action="/test/schools_compare">
         <input hidden="hidden" id="school_hidden" name="school_hidden">
         <input type="submit" value="确定提交" onclick="hidden_value()">
     </form>
-    <button id="subcom" onclick="sub()">提交</button>
 </div>
 
 </body>
 <script>
+    //选中对比学校的个数
+    var selectNub = 0;
     
     function hidden_value() {
         var cit = new Array();
@@ -160,79 +168,48 @@
         document.getElementById("school_hidden").setAttribute("value",c);
         alert(document.getElementById("school_hidden").value);
     }
-    var schooltext;
-    function sub() {
-        var cit = new Array();
-        var   ul = document.getElementById("selectedplan").getElementsByTagName("li");
-        for(var i =0;i<ul.length;i++)
-        {
-             cit[i] = ul[i].getAttribute("value");
-        }
-        var c = cit.join();
-        alert(c);
-        $.ajax({
-            type :'POST',
-            url: '/test/schools_compare',
-            data: {"schools":c},
-            success : function(data) {
-                if (data)
-                {
-                    window.location.href="${pageContext.request.contextPath}/test/success";
-                }
-            }
-        });
 
-    }
-    function id_send() {
-        // var arr = [1,2,3,4];
-        var array =  ['1','2'];
-        alert("/test/send1")
-        // $.post(
-            <%--"${pageContext.request.contextPath}/test/send",{'arr':arr},function (flag) {--%>
-            <%--alert(flag);--%>
-        <%--}--%>
-        // )
-        $.ajax({
-            type : 'POST',
-            url: '/test/send1',
-            contentType : "application/json" ,
-            data: JSON.stringify(array),
-            success : function(data) {
-                if(data)
-                {
-                    window.location.href = "${pageContext.request.contextPath}/test/success";
-                }
 
-            }
-        });
 
-    }
     function schooldelete() {
+        var delete_school = this.parentElement.firstChild.nodeValue;
+        document.getElementById(delete_school).disabled = false;
         this.parentElement.remove();
-    }
-    function Contrast(name) {
-        var ul = document.getElementById("selectedplan");
-        var li = document.createElement("li");
-        li.textContent = name;
-        li.setAttribute("value",name);
-        var a =document.createElement("a");
-        a.textContent="删除";
-        a.addEventListener("click",schooldelete);
-        li.appendChild(a);
-        ul.appendChild(li);
+        selectNub = selectNub -1;
 
-        alert(name);
-       // var s = document.getElementsByName(name);
-       // document.getElementsByName(name).attr("disabled","true");
-        var thi = "ceshi";
-       document.getElementById(name).disabled  = true;
+    }
+
+    function Contrast(name) {
+        if (selectNub<4)
+        {
+            selectNub  +=1;
+            var ul = document.getElementById("selectedplan");
+            var li = document.createElement("li");
+            li.textContent = name;
+            li.setAttribute("value",name);var a =document.createElement("a");
+            a.textContent="删除";
+            a.addEventListener("click",schooldelete);
+            li.appendChild(a);
+            ul.appendChild(li);
+
+            alert(name);
+            // var s = document.getElementsByName(name);
+            // document.getElementsByName(name).attr("disabled","true");
+            var thi = "ceshi";
+            document.getElementById(name).disabled  = true;
+        }
+        else
+        {
+            alert("最多选中四所学校");
+        }
+
     }
     
     function load()
     {
         $("input:radio[name='pro'][value=${province}]").attr('checked','true');
         $("input:radio[name='type'][value=${type}]").attr('checked','true');
-
+        $("input:radio[name='level'][value=${level}]").attr('checked','true');
     }
     window.onload = load;
     /**
@@ -240,11 +217,16 @@
      */
     $('input:radio[name="pro"]').change(like);
     $('input:radio[name="type"]').change(like);
+    $('input:radio[name="level"]').change(like);
+
     function like()
     {
         var pro = $("input[name='pro']:checked").val();
         var type = $("input[name='type']:checked").val();
-        window.location.href="${pageContext.request.contextPath}/test/search?province="+pro+"&type="+type;
+        var level = $("input[name='level']:checked").val();
+        alert(level);
+        alert("${pageContext.request.contextPath}/test/search?province=\"+pro+\"&type=\"+type+\"&level=\"+level");
+        window.location.href="${pageContext.request.contextPath}/test/search?province="+pro+"&type="+type+"&level="+level;
         <%--window.location.href="${pageContext.request.contextPath}/school/search?province="--%>
     }
     $(function () {

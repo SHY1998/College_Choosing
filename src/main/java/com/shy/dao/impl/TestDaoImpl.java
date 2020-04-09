@@ -85,12 +85,13 @@ public class TestDaoImpl implements TestDao {
         return list;
     }
     @Override
-    public List<School_Information> getSchoolByParams(String province,String type, int start)
+    public List<School_Information> getSchoolByParams(String province,String type,String level, int start)
     {
         DetachedCriteria dc  = detachedCriteria();
         dc.createAlias("province","p");
         dc.add(Restrictions.like("p.province_name",province, MatchMode.ANYWHERE));
         dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
+        dc.add(Restrictions.like("level_name",level,MatchMode.ANYWHERE));
         Criteria c = dc.getExecutableCriteria(getCurrentSession());
         System.out.println("Criteria");
         System.out.println(type);
@@ -106,7 +107,7 @@ public class TestDaoImpl implements TestDao {
         return null;
     }
     @Override
-    public List<School_Information> getSchool(String province,String type, int start)
+    public List<School_Information> getSchool(String province,String type,String level, int start)
     {
         DetachedCriteria dc  = detachedCriteria();
         dc.createAlias("province","p");
@@ -119,6 +120,10 @@ public class TestDaoImpl implements TestDao {
         {
             dc.add(Restrictions.like("type_name",type, MatchMode.ANYWHERE));
 
+        }
+        if (level!=null)
+        {
+            dc.add(Restrictions.like("level_name",level,MatchMode.ANYWHERE));
         }
         Criteria c =dc.getExecutableCriteria(getCurrentSession());
         List<School_Information> schools = c.list();

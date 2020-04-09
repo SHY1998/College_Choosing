@@ -35,17 +35,18 @@ public class TestController {
      * @return  学校列表
      */
     @RequestMapping("search")
-    public String getAllSchool(@RequestParam(name = "page",defaultValue = "1",required = false)int page, @RequestParam(name = "province",defaultValue ="")String province, @RequestParam(name = "type",defaultValue ="")String type,Model model)
+    public String getAllSchool(@RequestParam(name = "page",defaultValue = "1",required = false)int page, @RequestParam(name = "province",defaultValue ="")String province, @RequestParam(name = "type",defaultValue ="")String type,@RequestParam(name = "level",defaultValue ="")String level,Model model)
     {
 
         Page p = new Page();
-        List<School_Information> list = testService.getSchoolByParams(province,type,(page-1)*p.getPageSize());
-        p.setTotalRecord(testService.getSchool(province,type,page).size());
+        List<School_Information> list = testService.getSchoolByParams(province,type,level,(page-1)*p.getPageSize());
+        p.setTotalRecord(testService.getSchool(province,type,level,page).size());
         p.setCurrentPage(page);
         model.addAttribute("list",list);
         model.addAttribute("page",p);
         model.addAttribute("province",province);
         model.addAttribute("type",type);
+        model.addAttribute("level",level);
         return "test";
 
     }
@@ -93,10 +94,10 @@ public class TestController {
      * @return
      */
     @RequestMapping("schools_compare")
-    public String schools_compare(@RequestParam(value = "school_hidden")String schools)
+    public String schools_compare(@RequestParam(value = "school_hidden")String schools,Model model)
     {
-        System.out.println("form提交");
-        System.out.println(schools);
+        List<School_Information> schoolbank = testService.compare(schools);
+        model.addAttribute("schools",schoolbank);
         return "success";
     }
     @RequestMapping("success")

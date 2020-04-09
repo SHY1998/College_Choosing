@@ -13,7 +13,7 @@ public interface SchoolDao {
 
 //    List<School_Information> getAccountByPage(int start, String province);
 
-    List<School_Information> getSchoolByParams(String province, String type,int start);
+    List<School_Information> getSchoolByParams(String province, String type,String level,int start);
 
-    List<School_Information> getSchool(String province,String type, int start);
+    List<School_Information> getSchool(String province,String type,String level, int start);
 }

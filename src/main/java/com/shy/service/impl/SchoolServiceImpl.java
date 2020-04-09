@@ -23,16 +23,16 @@ public class SchoolServiceImpl implements SchoolService {
     }
 
     @Override
-    public List<School_Information> getSchoolByParams(String province,String type,int page)
+    public List<School_Information> getSchoolByParams(String province,String type,String level,int page)
     {
-        List<School_Information> list = schoolDao.getSchoolByParams(province,type,page);
+        List<School_Information> list = schoolDao.getSchoolByParams(province,type,level,page);
         return list;
     }
 
     @Override
-    public List<School_Information> getSchool(String province,String type, int page)
+    public List<School_Information> getSchool(String province,String type,String level, int page)
     {
-        List<School_Information> list = schoolDao.getSchool(province,type,page);
+        List<School_Information> list = schoolDao.getSchool(province,type,level,page);
 //                List<School_Information> list = schoolDao.getSchool();
 
         return list;
