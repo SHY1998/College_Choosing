@@ -39,4 +39,15 @@ public class TestServiceImpl implements TestService {
 
         return list;
     }
+
+    @Override
+    public List<School_Information> compare(String schoolbank)
+    {
+        System.out.println("service传递的位");
+        System.out.println(schoolbank);
+//        String [] school = schoolbank.split(",");
+//        System.out.println(school.getClass());
+        List<School_Information> list = testDao.compare(schoolbank);
+        return list;
+    }
 }

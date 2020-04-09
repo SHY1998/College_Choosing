@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -70,15 +71,37 @@ public class TestController {
         return "success";
     }
 
+//    @RequestMapping("schools_compare")
+//    public String schools_compare(String schools, Model model)
+//    {
+//        List<School_Information> schoolbank = testService.compare(schools);
+//        String [] school = schools.split(",");
+//        System.out.println("学校是");
+//        System.out.println(schools);
+//        for (int i = 0; i <school.length ; i++) {
+//            System.out.println(school[i]);
+//        }
+//        model.addAttribute("list",schoolbank);
+//        ModelAndView modelAndView = new ModelAndView("success");
+//        modelAndView.addObject("list",school);
+//        return "success";
+//    }
+
+    /**
+     * form提交对比表单
+     * @param schools
+     * @return
+     */
     @RequestMapping("schools_compare")
-    public String schools_compare( String schools)
+    public String schools_compare(@RequestParam(value = "school_hidden")String schools)
     {
-        String [] school = schools.split(",");
-        System.out.println("学校是");
+        System.out.println("form提交");
         System.out.println(schools);
-        for (int i = 0; i <school.length ; i++) {
-            System.out.println(school[i]);
-        }
+        return "success";
+    }
+    @RequestMapping("success")
+    public String success()
+    {
         return "success";
     }
 }

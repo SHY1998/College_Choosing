@@ -15,6 +15,8 @@ public interface TestDao {
 
     List<School_Information> test();
 
+    List<School_Information> compare(String schoolbank);
+
     List<School_Information> getSchoolByParams(String province, String type, int start);
 
     List<School_Information> getSchool(String province,String type, int start);

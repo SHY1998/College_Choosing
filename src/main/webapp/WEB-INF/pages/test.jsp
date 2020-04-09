@@ -139,11 +139,27 @@
     <ul id="selectedplan">
         <li value="q23">q2</li>
     </ul>
+    <form action="/test/schools_compare">
+        <input hidden="hidden" id="school_hidden" name="school_hidden">
+        <input type="submit" value="确定提交" onclick="hidden_value()">
+    </form>
     <button id="subcom" onclick="sub()">提交</button>
 </div>
 
 </body>
 <script>
+    
+    function hidden_value() {
+        var cit = new Array();
+        var   ul = document.getElementById("selectedplan").getElementsByTagName("li");
+        for(var i =0;i<ul.length;i++)
+        {
+            cit[i] = ul[i].getAttribute("value");
+        }
+        var c = cit.join();
+        document.getElementById("school_hidden").setAttribute("value",c);
+        alert(document.getElementById("school_hidden").value);
+    }
     var schooltext;
     function sub() {
         var cit = new Array();
@@ -159,6 +175,10 @@
             url: '/test/schools_compare',
             data: {"schools":c},
             success : function(data) {
+                if (data)
+                {
+                    window.location.href="${pageContext.request.contextPath}/test/success";
+                }
             }
         });
 
@@ -178,6 +198,11 @@
             contentType : "application/json" ,
             data: JSON.stringify(array),
             success : function(data) {
+                if(data)
+                {
+                    window.location.href = "${pageContext.request.contextPath}/test/success";
+                }
+
             }
         });
 

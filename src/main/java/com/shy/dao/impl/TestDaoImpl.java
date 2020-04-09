@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -62,6 +63,26 @@ public class TestDaoImpl implements TestDao {
         System.out.println("多值查询");
         System.out.println(schools.size());
         return schools;
+    }
+
+
+    @Override
+    public List<School_Information> compare(String schools)
+    {
+        System.out.println("进入dao");
+        String [] school = schools.split(",");
+        String sql = "from School_Information where school_name = '' ";
+        for (int i = 0; i <school.length; i++) {
+            sql +="or school_name = '"+school[i]+"'";
+            System.out.println(school[i]);
+        }
+        System.out.println("sql="+sql);
+        Query query = this.getCurrentSession().createQuery(sql);
+        List<School_Information> list = query.list();
+//        List<School_Information> list = new ArrayList<>();
+        System.out.println("结果集的大小");
+        System.out.println(list.size());
+        return list;
     }
     @Override
     public List<School_Information> getSchoolByParams(String province,String type, int start)
