@@ -97,6 +97,7 @@ public class TestDaoImpl implements TestDao {
         System.out.println(type);
         System.out.println(c.list().size());
         System.out.println("Criteria");
+        System.out.println("start"+start);
         c.setFirstResult(start);
         c.setMaxResults(20);
         List<School_Information> schools = c.list();

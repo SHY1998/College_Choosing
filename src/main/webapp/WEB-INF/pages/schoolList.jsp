@@ -90,7 +90,7 @@
         <td>类别热度排名</td>
     </tr>
     <c:if test="${list!=null||fn:length(list)!=0}">
-        <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
+        <c:forEach items="${list}" var = "school" begin="0" >
             <tr>
                 <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
                 <%--<td>${school.Province.province_name}</td>--%>

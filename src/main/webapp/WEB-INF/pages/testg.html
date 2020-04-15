@@ -1,13 +1,4 @@
-<%--
-Created by IntelliJ IDEA.
-User: 23226
-Date: 2020-04-02
-Time: 21:14
-To change this template use File | Settings | File Templates.
---%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java"  isELIgnored="false" %>
+
 <html>
 <head>
     <title>Title</title>
@@ -67,184 +58,16 @@ To change this template use File | Settings | File Templates.
     <input name="type" type="radio" value="民族类"/>民族
     <input name="type" type="radio" value="军事类"/>军事
 </div>
-<div>
-    <form method="get" action="${pageContext.request.contextPath}/school/search">
-        <input type="text" name="province">
-        <button type="submit" id="ceshi" name="ccccc">查询</button>
-    </form>
-</div>
-<button type="button" id="btn">北京</button>
-<table frame="box" rules="all">
-    <tr>
-        <td>id</td>
-        <td>Name</td>
-        <td>Money</td>
-        <td>Money</td>
-        <td>高校对比</td>
-
-    </tr>
-
-    <c:if test="${list!=null||fn:length(list)!=0}">
-        <c:forEach items="${list}" var = "school" begin="0" end="${fn:length(list)}">
-            <tr>
-                <td><a href="${pageContext.request.contextPath}/school/${school.school_id}">${school.school_name}</a></td>
-                <%--<td>${school.Province.province_name}</td>--%>
-                <td>${school.level_name}</td>
-                <td>${school.heat_rank}</td>
-                <td><button id="${school.school_name}" name="${school.school_name} " onclick="Contrast('${school.school_name}')">高校对比</button></td>
-            </tr>
-        </c:forEach>
-    </c:if>
-</table>
-<table>
-    <tr itemid="${page}">
-        <form action="${pageContext.request.contextPath}/school/search">
-            <td><input type="hidden" name="page" value="1"></td>
-            <td><input type="hidden" name="province" value="${province}"></td>
-            <td><input type="submit" value="首页"></td>
-        </form>
-
-        <form action="${pageContext.request.contextPath}/school/search">
-            <td><input type="hidden" name="page" value="${page.prefPage}"></td>
-            <td><input type="hidden" name="province" value="${province}"></td>
-            <td><input type="submit" value="上一页"></td>
-        </form>
-        <td>当前：第${page.currentPage}页<--></td>
-        <td>共：${page.totalPage}页</td>
-
-        <form method="GET" action="${pageContext.request.contextPath}/school/search">
-            <td><input type="hidden" name="province" value="${province}"></td>
-            <td><input type="hidden" name="page" value="${page.nextPage}"></td>
-            <td><input type="submit" value="下一页"></td>
-        </form>
-
-        <form method="GET" action="${pageContext.request.contextPath}/school/search ">
-            <td><input type="hidden" name="page" value="${page.totalPage}"></td>
-            <td><input type="hidden" name="province" value="${province}"></td>
-            <td><input type="submit" value="尾页"></td>
-        </form>
-    </tr>
-</table>
-<form method="GET" action="${pageContext.request.contextPath}/test/page">
-    <table>
-        <tr>
-            <td>跳转到第:<input type="text" name="page" size="5"/>页</td>
-            <td><input type="submit" value="确定"></td>
-        </tr>
-    </table>
-</form>
-<div>
-    <h1>对比</h1>
-    <button onclick="id_send()">传递数组</button>
-    <ul>
-        <li style="list-style: none;">
-        <span>北京</span>
-    </li>
-    </ul>
-</div>
-<table frame="box" rules="all">
-    <tr align="center">
-        <td rowspan="2">学校名称</td>
-        <td rowspan="2">所在地</td>
-        <td rowspan="2">办学类型</td>
-        <td colspan="2">报名热度</td>
-        <td rowspan="2">高校对比</td>
-    </tr>
-    <tr align="center">
-        <td>全国热度排名</td>
-        <td>类别热度排名</td>
-    </tr>
-</table>
 </body>
-<!--<script>-->
-    <!--function id_send() {-->
-        <!--// var arr = [1,2,3,4];-->
-        <!--var array =  ['1','2'];-->
-        <!--alert("/test/send1")-->
-        <!--// $.post(-->
-        <!--<%&#45;&#45;"${pageContext.request.contextPath}/test/send",{'arr':arr},function (flag) {&#45;&#45;%>-->
-        <!--<%&#45;&#45;alert(flag);&#45;&#45;%>-->
-        <!--<%&#45;&#45;}&#45;&#45;%>-->
-        <!--// )-->
-        <!--$.ajax({-->
-            <!--type : 'POST',-->
-            <!--url: '/test/send1',-->
-            <!--contentType : "application/json" ,-->
-            <!--data: JSON.stringify(array),-->
-            <!--success : function(data) {-->
-            <!--}-->
-        <!--});-->
+<script>
+    $('input:radio[name="pro"]').change(hide);
+    $('input:radio[name="type"]').change(hide);
 
-    <!--}-->
-    <!--function Contrast(name) {-->
-        <!--alert(name);-->
-        <!--// var s = document.getElementsByName(name);-->
-        <!--// document.getElementsByName(name).attr("disabled","true");-->
-        <!--var thi = "ceshi";-->
-        <!--document.getElementById(name).disabled  = true;-->
-    <!--}-->
 
-    <!--function load()-->
-    <!--{-->
-        <!--$("input:radio[name='pro'][value=${province}]").attr('checked','true');-->
-        <!--$("input:radio[name='type'][value=${type}]").attr('checked','true');-->
 
-    <!--}-->
-    <!--window.onload = load;-->
-    <!--/**-->
-     <!--* 单选框-->
-     <!--*/-->
-    <!--$('input:radio[name="pro"]').change(like);-->
-    <!--$('input:radio[name="type"]').change(like);-->
-    <!--function like()-->
-    <!--{-->
-        <!--var pro = $("input[name='pro']:checked").val();-->
-        <!--var type = $("input[name='type']:checked").val();-->
-        <!--window.location.href="${pageContext.request.contextPath}/school/search?province="+pro+"&type="+type;-->
-        <!--<%&#45;&#45;window.location.href="${pageContext.request.contextPath}/school/search?province="&#45;&#45;%>-->
-    <!--}-->
-    <!--$(function () {-->
-        <!--$("#btn").click(function () {-->
-            <!--alert("前面")-->
-            <!--// $.ajax("list",{"page":"1","province":"北京"},function (data) {-->
-            <!--//     alert("chengong")-->
-            <!--//     // console.log(data);-->
-            <!--//     // var html = "";-->
-            <!--//     // for (var i =0;i<data.length;i++)-->
-            <!--//     // {-->
-            <!--//     //     html+="<tr>"+-->
-            <!--//     //         "<td>"+data[i].school_name+"</td>"+-->
-            <!--//     //         "<td>"+data[i].school_name+"</td>"+-->
-            <!--//     //         "<td>"+data[i].school_name+"</td>"+"<tr>"-->
-            <!--//     // }-->
-            <!--//     // $("#contant").html(html);-->
-            <!--//     alert(data.schoolList);-->
-            <!--//-->
-            <!--// })-->
-            <!--$.ajax({-->
-                <!--url:"${pageContext.request.contextPath}/school/list",-->
-                <!--data:{"page":1,"province":"安徽"},-->
-                <!--type:"GET",-->
-                <!--success:function (data) {-->
-                    <!--alert("chengong")-->
-                    <!--alert(data.schoolList[0].school_name)-->
-                    <!--console.log(data);-->
-                    <!--var list = data.schoolList;-->
-                    <!--var table = $("#thisTable");-->
-                    <!--var tr = ""-->
-                    <!--for ( i =0;i<list.length;i++)-->
-                    <!--{-->
-                        <!--var schools = list[i];-->
-                        <!--tr+="<tr>"+-->
-                            <!--"<td>"+schools.school_name+"</td>"+-->
-                            <!--"<td>"+schools.school_name+"</td>"+-->
-                            <!--"<td>"+schools.school_name+"</td>"+"<tr>"-->
-                    <!--}-->
-                    <!--alert(tr);-->
-                    <!--table.append(tr);-->
-                <!--}-->
-            <!--})-->
-        <!--})-->
-    <!--})-->
-<!--</script>-->
+    function hide() {
+        var type = document.getElementsByName("type");
+        alert(type[1].getAttribute("value"));
+    }
+</script>
 </html>
