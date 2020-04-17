@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>精准高考</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <script src="../../js/jquery-3.4.1.js"></script>
+    <!--<link rel="stylesheet" href="../../css/searchCss.css">-->
+    <script type="text/javascript" src="../../js/current.js"></script>
+    <link href="../../css/SelectCss.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="../../tools/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../../tools/usteel-search/search.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../tools/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="../../tools/usteel-search/search.css" />
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="headerPage"></div>
+<div class="container">
+
+    <form onsubmit="event.preventDefault();" role="search">
+        <input id="search" type="search" placeholder="查询学校" autofocus required />
+        <button type="submit" >Go</button>
+    </form>
+</div>
+<div class="cation-content container">
+    <div style="height:50px"></div> <!-- 可以删除 -->
+    <div class="cation-middle">
+        <dl class="cation-list">
+            <dt>所属地区</dt>
+            <dd>
+                <a href="#" rel="" name="mode" class="all on">全部</a>
+                <a href="#" rel="北京" name="mode" class="default">北京 </a>
+                <a href="#" rel="河北" name="mode" class="default">河北 </a>
+                <a href="#" rel="天津 " name="mode" class="default">天津 </a>
+                <a href="#" rel="山西 " name="mode" class="default">山西</a>
+                <a href="#" rel="内蒙古" name="mode" class="default">内蒙古</a>
+                <a href="#" rel="辽宁 " name="mode" class="default">辽宁 </a>
+                <a href="#" rel="吉林 " name="mode" class="default">吉林 </a>
+                <a href="#" rel="黑龙江 " name="mode" class="default">黑龙江 </a>
+                <a href="#" rel="上海 " name="mode" class="default">上海 </a>
+                <a href="#" rel="江苏 " name="mode" class="default">江苏 </a>
+                <a href="#" rel="浙江  " name="mode" class="default">浙江  </a>
+                <a href="#" rel="安徽  " name="mode" class="default">安徽  </a>
+                <a href="#" rel="福建  " name="mode" class="default">福建  </a>
+                <a href="#" rel="江西  " name="mode" class="default">江西  </a>
+                <a href="#" rel="山东  " name="mode" class="default">山东  </a>
+                <a href="#" rel="河南  " name="mode" class="default">河南  </a>
+                <a href="#" rel="湖北  " name="mode" class="default">湖北  </a>
+                <a href="#" rel="湖南  " name="mode" class="default">湖南  </a>
+                <a href="#" rel="广东  " name="mode" class="default">广东  </a>
+                <a href="#" rel="广西  " name="mode" class="default">广西  </a>
+                <a href="#" rel="海南  " name="mode" class="default">海南  </a>
+                <a href="#" rel="重庆  " name="mode" class="default">重庆  </a>
+                <a href="#" rel="四川  " name="mode" class="default">四川  </a>
+                <a href="#" rel="贵州  " name="mode" class="default">贵州  </a>
+                <a href="#" rel="云南  " name="mode" class="default">云南  </a>
+                <a href="#" rel="西藏  " name="mode" class="default">西藏  </a>
+                <a href="#" rel="陕西  " name="mode" class="default">陕西  </a>
+                <a href="#" rel="甘肃  " name="mode" class="default">甘肃  </a>
+                <a href="#" rel="青海  " name="mode" class="default">青海  </a>
+                <a href="#" rel="宁夏  " name="mode" class="default">宁夏  </a>
+                <a href="#" rel="新疆  " name="mode" class="default">新疆  </a>
+                <a href="#" rel="香港  " name="mode" class="default">香港  </a>
+                <a href="#" rel="澳门 " name="mode" class="default">澳门 </a>
+                <a href="#" rel="台湾 " name="mode" class="default">台湾 </a>
+            </dd>
+        </dl>
+        <dl class="cation-list">
+            <dt>院校类型</dt>
+            <dd>
+                <a href="#" rel="" name="theme" class="all on">全部</a>
+                <a href="#" rel="综合 " name="theme" class="default">综合 </a>
+                <a href="#" rel="理工 " name="theme" class="default">理工 </a>
+                <a href="#" rel="农林" name="theme" class="default">农林</a>
+                <a href="#" rel="医药 " name="theme" class="default">医药 </a>
+                <a href="#" rel="师范 " name="theme" class="default">师范 </a>
+                <a href="#" rel="语言 " name="theme" class="default">语言 </a>
+                <a href="#" rel="财经 " name="theme" class="default">财经 </a>
+                <a href="#" rel="政法 " name="theme" class="default">政法 </a>
+                <a href="#" rel="体育 " name="theme" class="default">体育 </a>
+                <a href="#" rel="艺术 " name="theme" class="default">艺术 </a>
+                <a href="#" rel="民族 " name="theme" class="default">民族 </a>
+                <a href="#" rel="军事" name="theme" class="default">军事</a>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="container">
+        <div class="usteel-table">
+            <section>
+                <p class="t_th">
+                    <span>地区</span>
+                    <span>品种</span>
+                    <span>标准</span>
+                    <span>材质</span>
+                    <span>规格(mm 外径*厚度*长度)</span>
+                    <span>生产商</span>
+                    <span>供应商</span>
+                    <span>库存(吨)</span>
+                    <span>价格(元/吨)</span>
+                </p>
+                <a class="t_tr" href="?id=11">
+                    <span class="w-1">河南省</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">460.00*54.00*12.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">7000.00 </span>
+                    <span class="w-1"><i>29999.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=10">
+                    <span class="w-1">广东省</span>
+                    <span class="w-1">流体管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">219.00*8.80*12.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">1500.00 </span>
+                    <span class="w-1"><i>2199.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=9">
+                    <span class="w-1">天津市</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">219.00*7.70*12.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">100.00 </span>
+                    <span class="w-1"><i>5555.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=6">
+                    <span class="w-1">黑龙江省</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">399.00*15.00*10.00</span>
+
+                    <span class="w-1">黑龙江建龙</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">498.00 </span>
+                    <span class="w-1"><i>5555.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=5">
+                    <span class="w-1">天津市</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">273.00*12.00*12.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">TEST</span>
+                    <span class="w-1">-43.00 </span>
+                    <span class="w-1"><i>4700.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=3">
+                    <span class="w-1">天津市</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">406.00*12.00*12.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">147.00 </span>
+                    <span class="w-1"><i>5700.00</i> </span>
+                </a>
+                <a class="t_tr" href="?id=2">
+                    <span class="w-1">北京市</span>
+                    <span class="w-1">管线管</span>
+                    <span class="w-1">GB8163</span>
+                    <span class="w-1">20#</span>
+                    <span class="w-1">10.00*10.00*10.00</span>
+
+                    <span class="w-1">天津大无缝</span>
+                    <span class="w-1">福建某某某有限公司</span>
+                    <span class="w-1">8.00 </span>
+                    <span class="w-1"><i>200.00</i> </span>
+                </a>
+
+            </section>
+            <center id="page" class="page"></center>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+        new SelectTag({
+            child: ".default", /*所有默认*/
+            over: 'on', /*当前选中*/
+            all: ".all" /*默认全部*/
+        });
+    });
+    $(function () {
+        $(".headerPage").load("headerPage.html");
+    });
+    layui.use(['form', 'layedit', 'laydate', 'carousel', 'element', 'laypage'], function () {
+        var layer = layui.layer,
+            laypage = layui.laypage,
+            element = layui.element;
+
+        laypage.render({
+            elem: 'page',
+            count: 1000,
+            layout: ['page', 'limit', 'skip', 'count', ],
+            theme: '#3e88f5',
+            curr: "1" //获取起始页
+            ,
+            limit: "10",
+            jump: function (obj, first) {
+                //obj包含了当前分页的所有参数，比如：
+                //		    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
+                //		    console.log(obj.limit); //得到每页显示的条数
+                //首次不执行
+                if (!first) {
+                    //					var load = layer.load(2, {shade: [0.1,'#000']});
+                    locationHref("page=" + obj.curr + "&limit=" + obj.limit, "#usteel-condition", "page");
+                }
+            }
+        });
+    });
+
+</script>
+</html>
