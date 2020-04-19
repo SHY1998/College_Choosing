@@ -46,8 +46,8 @@ public class School_Information implements Serializable {
     @Column(name = "heat_rank")
     private Integer heat_rank;
 
-    @Column(name = "headt_total")
-    private Integer headt_total;
+    @Column(name = "heat_total")
+    private Integer heat_total;
 
     @Column(name = "heat_rank_type")
     private Integer heat_rank_type;
@@ -150,10 +150,10 @@ public class School_Information implements Serializable {
     public School_Information() {
     }
 
-    public School_Information(String school_name, Integer heat_rank, Integer headt_total, Integer heat_rank_type, String level_name, String type_name, String belong, Integer is_211, String school_type, String city_name, String country_name, Integer dual_clss, String province_name, String nature_name, Province province, Integer city_id, Integer is_985, Integer is_top, String home_page, String school_phone, String school_emil, String learning_index, String life_index, String empliyment_index, String composite_score, String doctoral_degree, String the_master, String key_discipline, String key_laboratory, String male_rate, String famale_rate, String job_rate, String graduation_rate, String go_abroad_rate) {
+    public School_Information(String school_name, Integer heat_rank, Integer heat_total, Integer heat_rank_type, String level_name, String type_name, String belong, Integer is_211, String school_type, String city_name, String country_name, Integer dual_clss, String province_name, String nature_name, Province province, Integer city_id, Integer is_985, Integer is_top, String home_page, String school_phone, String school_emil, String learning_index, String life_index, String empliyment_index, String composite_score, String doctoral_degree, String the_master, String key_discipline, String key_laboratory, String male_rate, String famale_rate, String job_rate, String graduation_rate, String go_abroad_rate) {
         this.school_name = school_name;
         this.heat_rank = heat_rank;
-        this.headt_total = headt_total;
+        this.heat_total = heat_total;
         this.heat_rank_type = heat_rank_type;
         this.level_name = level_name;
         this.type_name = type_name;

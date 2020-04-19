@@ -1,5 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<%--
+  Created by IntelliJ IDEA.
+  User: 23226
+  Date: 2020-04-18
+  Time: 16:22
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>精准高考</title>
@@ -46,13 +53,13 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <button class="nav-link ">登录</button>
-               </li>
-                <li class="nav-item dropdown">
-                    <button class="nav-link dropdown-toggle">注册</button>
+                    <button class="nav-link " onclick="login()">登录</button>
                 </li>
-            </ul>
+                <li class="nav-item dropdown">
+                    <button class="nav-link ">注册</button>
+                </li>
 
+            </ul>
         </div>
     </div>
 
@@ -62,13 +69,13 @@
     <div class="container form-inline justify-content-sm-between">
         <a class="align-content-center"><img src="../../img/商标.png" style="width: auto;height: 40px; margin-top: 20px"></a>
         <div style="margin-top: 20px" >
-        <button class="btn btn-outline-primary disabled" >河北</button>
-        <a href="#">切换城市</a>
+            <button class="btn btn-outline-primary disabled" >河北</button>
+            <a href="#">切换城市</a>
         </div>
         <form action="" class="form-inline my-2 my-md-0">
             <div style="margin-top: 20px">
-            <input type="text" class="form-control mr-sm-2" placeholder="请输入关键字" >
-            <button class="btn btn-outline-success my-2 my-md-0" >搜索</button>
+                <input type="text" class="form-control mr-sm-2" placeholder="请输入关键字" >
+                <button class="btn btn-outline-success my-2 my-md-0" >搜索</button>
             </div>
         </form>
     </div>
@@ -93,4 +100,10 @@
     </ul>
 </div>
 </body>
+<script>
+    function login() {
+        // alert("123");
+        window.location.href="${pageContext.request.contextPath}/user/login";
+    }
+</script>
 </html>

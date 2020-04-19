@@ -40,14 +40,16 @@ public class TestController {
 
         Page p = new Page();
         List<School_Information> list = testService.getSchoolByParams(province,type,level,(page-1)*p.getPageSize());
-        p.setTotalRecord(testService.getSchool(province,type,level,page).size());
+        int total = testService.getSchool(province,type,level,page).size();
+        p.setTotalRecord(total);
         p.setCurrentPage(page);
         model.addAttribute("list",list);
         model.addAttribute("page",p);
         model.addAttribute("province",province);
         model.addAttribute("type",type);
         model.addAttribute("level",level);
-        return "test";
+        model.addAttribute("total",total);
+        return "college_list";
 
     }
 
@@ -105,4 +107,11 @@ public class TestController {
     {
         return "success";
     }
+
+    @RequestMapping("college_list")
+    public String college_list()
+    {
+        return "college_list";
+    }
+
 }
